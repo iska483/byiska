@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iska - Product Detail</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reuse the same CSS from your main page */
+        :root {
+            --primary: #2a2a2a;
+            --secondary: #f8f8f8;
+            --accent: #d4af8f;
+            --text: #333;
+            --light-text: #777;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--secondary);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            background-color: var(--accent);
+            color: var(--primary);
+        }
+
+        /* Header Styles (same as main page) */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 0;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            padding: 10px 0;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(5px);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--primary);
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 30px;
+        }
+
+        nav ul li a {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav ul li a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover:after {
+            width: 100%;
+        }
+
+        nav ul li a:hover {
+            color: var(--accent);
+        }
+
+        .cart-icon {
+            position: relative;
+            margin-left: 30px;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--accent);
+            color: white;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 10px;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Product Detail Styles */
+        .product-detail {
+            padding: 120px 0 80px;
+        }
+
+        .product-detail-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+        }
+
+        .product-images {
+            display: grid;
+            grid-template-columns: 100px 1fr;
+            gap: 20px;
+        }
+
+        .thumbnail-images {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .thumbnail-images img {
+            width: 100%;
+            height: 80px;
+            object-fit: cover;
+            cursor: pointer;
+            border: 1px solid #eee;
+            transition: all 0.3s ease;
+        }
+
+        .thumbnail-images img:hover,
+        .thumbnail-images img.active {
+            border-color: var(--accent);
+        }
+
+        .main-image {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 20px 0;
+        }
+
+        .product-title {
+            font-size: 32px;
+            font-weight: 300;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .product-price {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+
+        .product-price .old-price {
+            text-decoration: line-through;
+            color: var(--light-text);
+            font-size: 18px;
+            margin-left: 10px;
+        }
+
+        .product-description {
+            margin-bottom: 30px;
+            line-height: 1.6;
+            color: var(--light-text);
+        }
+
+        .product-meta {
+            margin-bottom: 30px;
+        }
+
+        .meta-item {
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        .meta-item span:first-child {
+            font-weight: 500;
+            width: 120px;
+        }
+
+        .size-selector {
+            margin-bottom: 30px;
+        }
+
+        .size-options {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .size-option {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .size-option:hover,
+        .size-option.active {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .quantity-selector button {
+            width: 40px;
+            height: 40px;
+            background-color: #f1f1f1;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .quantity-selector input {
+            width: 60px;
+            height: 40px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-left: none;
+            border-right: none;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn-wishlist {
+            width: 50px;
+            height: 50px;
+            background-color: var(--secondary);
+            border: 1px solid #ddd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-wishlist:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        /* Related Products */
+        .related-products {
+            padding: 60px 0;
+            background-color: white;
+        }
+
+        .related-title {
+            font-size: 24px;
+            font-weight: 300;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+        }
+
+        .related-title:after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 2px;
+            background-color: var(--accent);
+            margin: 15px 0;
+        }
+
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .related-item {
+            position: relative;
+            background-color: var(--secondary);
+        }
+
+        .related-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .related-info {
+            padding: 15px;
+        }
+
+        .related-item-title {
+            font-size: 14px;
+            margin-bottom: 5px;
+            font-weight: 400;
+        }
+
+        .related-item-price {
+            font-size: 14px;
+            color: var(--light-text);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .product-detail-container {
+                grid-template-columns: 1fr;
+            }
+
+            .product-images {
+                grid-template-columns: 80px 1fr;
+            }
+
+            .related-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            nav {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background-color: white;
+                transition: all 0.3s ease;
+                padding: 40px 0;
+            }
+
+            nav.active {
+                left: 0;
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav ul li {
+                margin: 15px 0;
+            }
+
+            .related-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .product-images {
+                grid-template-columns: 1fr;
+            }
+
+            .thumbnail-images {
+                flex-direction: row;
+                order: 2;
+            }
+
+            .related-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header (same as main page) -->
+    <header id="header">
+        <div class="container header-container">
+            <a href="index.html" class="logo">ISKA<span>.</span></a>
+            <nav id="nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#featured">Featured</a></li>
+                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="index.html#products">Shop</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="cart-icon">
+                <i class="fas fa-shopping-bag"></i>
+                <span class="cart-count">0</span>
+            </div>
+            <div class="mobile-menu-btn" id="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Product Detail Section -->
+    <section class="product-detail">
+        <div class="container">
+            <div class="product-detail-container">
+                <div class="product-images">
+                    <div class="thumbnail-images">
+                        <img src="https://i.redd.it/fjlr7iuulju41.jpg" alt="Thumbnail 1" class="active">
+                        <img src="https://i.pinimg.com/736x/88/69/97/886997aa874db4da53879a08762ad960.jpg" alt="Thumbnail 2">
+                        <img src="https://i.pinimg.com/736x/ab/19/12/ab1912dd21ef6eff47c56a15621364f2.jpg" alt="Thumbnail 3">
+                        <img src="https://i.pinimg.com/736x/fa/e1/3b/fae13b4d4a53630f4d6928fe19cbdad6.jpg" alt="Thumbnail 4">
+                    </div>
+                    <div class="main-image-container">
+                        <img src="https://images.unsplash.com/photo-1551232864-3f0890e580d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="Linen Shirt" class="main-image">
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h1 class="product-title">Linen Shirt</h1>
+                    <div class="product-price">$89.00 <span class="old-price">$99.00</span></div>
+                    <p class="product-description">
+                        Our premium linen shirt is crafted from 100% organic European flax linen. Designed for comfort and breathability, this shirt features a relaxed fit, button-down collar, and French seams for durability. The natural texture of linen gives each shirt a unique character that improves with every wash.
+                    </p>
+                    <div class="product-meta">
+                        <div class="meta-item">
+                            <span>Category:</span>
+                            <span>Shirts</span>
+                        </div>
+                        <div class="meta-item">
+                            <span>Material:</span>
+                            <span>100% Organic Linen</span>
+                        </div>
+                        <div class="meta-item">
+                            <span>Color:</span>
+                            <span>Natural</span>
+                        </div>
+                        <div class="meta-item">
+                            <span>SKU:</span>
+                            <span>ISK-LS-001</span>
+                        </div>
+                    </div>
+                    <div class="size-selector">
+                        <span>Size:</span>
+                        <div class="size-options">
+                            <div class="size-option">XS</div>
+                            <div class="size-option active">S</div>
+                            <div class="size-option">M</div>
+                            <div class="size-option">L</div>
+                            <div class="size-option">XL</div>
+                        </div>
+                    </div>
+                    <div class="quantity-selector">
+                        <button class="minus">-</button>
+                        <input type="number" value="1" min="1">
+                        <button class="plus">+</button>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn">Add to Cart</button>
+                        <button class="btn-wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Products -->
+    <section class="related-products">
+        <div class="container">
+            <h2 class="related-title">You May Also Like</h2>
+            <div class="related-grid">
+                <div class="related-item">
+                    <img src="https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1525&q=80" alt="Related Product">
+                    <div class="related-info">
+                        <h3 class="related-item-title">Cotton T-Shirt</h3>
+                        <p class="related-item-price">$45.00</p>
+                    </div>
+                </div>
+                <div class="related-item">
+                    <img src="https://images.unsplash.com/photo-1551232864-3f0890e580d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="Related Product">
+                    <div class="related-info">
+                        <h3 class="related-item-title">Cashmere Sweater</h3>
+                        <p class="related-item-price">$179.00</p>
+                    </div>
+                </div>
+                <div class="related-item">
+                    <img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1025&q=80" alt="Related Product">
+                    <div class="related-info">
+                        <h3 class="related-item-title">Leather Belt</h3>
+                        <p class="related-item-price">$65.00</p>
+                    </div>
+                </div>
+                <div class="related-item">
+                    <img src="https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1525&q=80" alt="Related Product">
+                    <div class="related-info">
+                        <h3 class="related-item-title">Denim Jeans</h3>
+                        <p class="related-item-price">$95.00</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (same as main page) -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-col">
+                    <h3>Iska</h3>
+                    <p>Minimalist clothing designed for everyday life. Quality materials, timeless designs, and sustainable practices.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Shop</h3>
+                    <ul>
+                        <li><a href="#">New Arrivals</a></li>
+                        <li><a href="#">Men's Collection</a></li>
+                        <li><a href="#">Women's Collection</a></li>
+                        <li><a href="#">Accessories</a></li>
+                        <li><a href="#">Sale</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Information</h3>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Sustainability</a></li>
+                        <li><a href="#">Shipping & Returns</a></li>
+                        <li><a href="#">Size Guide</a></li>
+                        <li><a href="#">FAQs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Contact</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Fashion Ave, New York</li>
+                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-envelope"></i> hello@iska.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Iska. All rights reserved. | Designed with <i class="fas fa-heart"></i> for minimalists</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle (same as main page)
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const nav = document.getElementById('nav');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            nav.classList.toggle('active');
+            mobileMenuBtn.innerHTML = nav.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+
+        // Close mobile menu when clicking on a link
+        const navLinks = document.querySelectorAll('nav ul li a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                nav.classList.remove('active');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+
+        // Header scroll effect (same as main page)
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Product Image Gallery
+        const thumbnails = document.querySelectorAll('.thumbnail-images img');
+        const mainImage = document.querySelector('.main-image');
+
+        thumbnails.forEach(thumb => {
+            thumb.addEventListener('click', () => {
+                // Remove active class from all thumbnails
+                thumbnails.forEach(t => t.classList.remove('active'));
+                // Add active class to clicked thumbnail
+                thumb.classList.add('active');
+                // Change main image
+                mainImage.src = thumb.src;
+            });
+        });
+
+        // Size Selection
+        const sizeOptions = document.querySelectorAll('.size-option');
+        sizeOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                sizeOptions.forEach(opt => opt.classList.remove('active'));
+                option.classList.add('active');
+            });
+        });
+
+        // Quantity Selector
+        const minusBtn = document.querySelector('.quantity-selector .minus');
+        const plusBtn = document.querySelector('.quantity-selector .plus');
+        const quantityInput = document.querySelector('.quantity-selector input');
+
+        minusBtn.addEventListener('click', () => {
+            let value = parseInt(quantityInput.value);
+            if (value > 1) {
+                quantityInput.value = value - 1;
+            }
+        });
+
+        plusBtn.addEventListener('click', () => {
+            let value = parseInt(quantityInput.value);
+            quantityInput.value = value + 1;
+        });
+
+        // Wishlist Button
+        const wishlistBtn = document.querySelector('.btn-wishlist');
+        wishlistBtn.addEventListener('click', () => {
+            wishlistBtn.innerHTML = wishlistBtn.innerHTML.includes('far') ? 
+                '<i class="fas fa-heart"></i>' : '<i class="far fa-heart"></i>';
+        });
+    </script>
+</body>
+</html>

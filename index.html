@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iska - Minimalist Clothing</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Global Styles */
+        :root {
+            --primary: #2a2a2a;
+            --secondary: #f8f8f8;
+            --accent: #d4af8f;
+            --text: #333;
+            --light-text: #777;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--secondary);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            background-color: var(--accent);
+            color: var(--primary);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            font-size: 32px;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: relative;
+        }
+
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 2px;
+            background-color: var(--accent);
+            margin: 15px auto;
+        }
+
+        /* Header Styles */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 0;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            padding: 10px 0;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(5px);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--primary);
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 30px;
+        }
+
+        nav ul li a {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav ul li a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover:after {
+            width: 100%;
+        }
+
+        nav ul li a:hover {
+            color: var(--accent);
+        }
+
+        .cart-icon {
+            position: relative;
+            margin-left: 30px;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--accent);
+            color: white;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 10px;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background-image: url('https://i.pinimg.com/736x/dc/46/69/dc4669e297f324e9d88f05b5fe55a679.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            position: relative;
+            margin-top: 80px;
+        }
+
+        .hero:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            color: white;
+            max-width: 600px;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .hero-title {
+            font-size: 60px;
+            font-weight: 300;
+            margin-bottom: 30px;
+            line-height: 1.2;
+        }
+
+        .hero-title span {
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .hero-text {
+            font-size: 16px;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        /* Featured Section */
+        .featured {
+            background-color: white;
+        }
+
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .featured-item {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .featured-item img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .featured-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .featured-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 30px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            color: white;
+        }
+
+        .featured-overlay h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+            font-weight: 400;
+        }
+
+        .featured-overlay p {
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        /* About Section */
+        .about {
+            background-color: var(--secondary);
+        }
+
+        .about-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-image {
+            position: relative;
+            height: 500px;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .about-image:before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 100%;
+            height: 100%;
+            border: 1px solid var(--accent);
+            z-index: -1;
+        }
+
+        .about-content h2 {
+            font-size: 32px;
+            font-weight: 300;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .about-content h2 span {
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .about-content p {
+            margin-bottom: 20px;
+            line-height: 1.6;
+            color: var(--light-text);
+        }
+
+        /* Products Section */
+        .products {
+            background-color: white;
+        }
+
+        .products-filter {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .filter-btn {
+            background: none;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1px;
+            color: var(--light-text);
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            color: var(--primary);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .product-card {
+            position: relative;
+            background-color: var(--secondary);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-title {
+            font-size: 16px;
+            margin-bottom: 10px;
+            font-weight: 400;
+        }
+
+        .product-price {
+            font-size: 14px;
+            color: var(--light-text);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--accent);
+            color: white;
+            padding: 5px 10px;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .product-actions {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover .product-actions {
+            opacity: 1;
+        }
+
+        .product-action {
+            width: 40px;
+            height: 40px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .product-action:hover {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        /* Newsletter Section */
+        .newsletter {
+            background-color: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 60px 0;
+        }
+
+        .newsletter h2 {
+            font-size: 28px;
+            font-weight: 300;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .newsletter p {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            font-size: 14px;
+        }
+
+        .newsletter-form button {
+            padding: 0 30px;
+            background-color: var(--accent);
+            color: var(--primary);
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-form button:hover {
+            background-color: white;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary);
+            color: white;
+            padding: 80px 0 30px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .footer-col h3 {
+            font-size: 18px;
+            margin-bottom: 25px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 15px;
+        }
+
+        .footer-col ul li a {
+            color: rgba(255, 255, 255, 0.7);
+            transition: color 0.3s ease;
+            font-size: 14px;
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--accent);
+        }
+
+        .footer-col p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 20px;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .social-links {
+            display: flex;
+        }
+
+        .social-links a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background-color: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 12px;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .featured-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .about-container {
+                grid-template-columns: 1fr;
+            }
+
+            .about-image {
+                height: 400px;
+            }
+
+            .footer-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            nav {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background-color: white;
+                transition: all 0.3s ease;
+                padding: 40px 0;
+            }
+
+            nav.active {
+                left: 0;
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav ul li {
+                margin: 15px 0;
+            }
+
+            .hero-title {
+                font-size: 48px;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .featured-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-title {
+                font-size: 36px;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+
+            .newsletter-form input {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .newsletter-form button {
+                width: 100%;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="container header-container">
+            <a href="#" class="logo">ISKA<span>.</span></a>
+            <nav id="nav">
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#featured">Featured</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#products">Shop</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="cart-icon">
+                <i class="fas fa-shopping-bag"></i>
+                <span class="cart-count">0</span>
+            </div>
+            <div class="mobile-menu-btn" id="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <p class="hero-subtitle">New Collection</p>
+                <h1 class="hero-title">Minimalist <span>Essentials</span></h1>
+                <p class="hero-text">Discover our carefully curated collection of timeless pieces designed for effortless style and everyday comfort.</p>
+                <a href="#products" class="btn">Shop Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Section -->
+    <section class="featured" id="featured">
+        <div class="container">
+            <h2 class="section-title">Featured Collections</h2>
+            <div class="featured-grid">
+                <div class="featured-item">
+                    <img src="https://i.pinimg.com/736x/91/21/1d/91211d8810be0fb4456aca94730515f7.jpg" alt="Men's Collection">
+                    <div class="featured-overlay">
+                        <h3>Men's Essentials</h3>
+                        <p>Timeless pieces for the modern man</p>
+                        <a href="#" class="btn btn-outline">View Collection</a>
+                    </div>
+                </div>
+                <div class="featured-item">
+                    <img src="https://i.pinimg.com/736x/70/26/67/7026675acc16d670dc28b0bf02e66639.jpg" alt="Women's Collection">
+                    <div class="featured-overlay">
+                        <h3>Women's Collection</h3>
+                        <p>Elevated basics for effortless style</p>
+                        <a href="#" class="btn btn-outline">View Collection</a>
+                    </div>
+                </div>
+                <div class="featured-item">
+                    <img src="https://i.pinimg.com/736x/fd/93/25/fd9325acc4ad3edcc28738831aeabb14.jpg" alt="Accessories">
+                    <div class="featured-overlay">
+                        <h3>Accessories</h3>
+                        <p>Finishing touches for every look</p>
+                        <a href="#" class="btn btn-outline">View Collection</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <h2 class="section-title">Our Story</h2>
+            <div class="about-container">
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1607083206968-13611e3d76db?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1515&q=80" alt="About Iska">
+                </div>
+                <div class="about-content">
+                    <h2>Creating <span>Timeless</span> Pieces</h2>
+                    <p>Founded in 2023, Iska was born from a desire to create clothing that transcends trends. We believe in quality over quantity, crafting pieces that are designed to last and become staples in your wardrobe.</p>
+                    <p>Every garment is thoughtfully designed with attention to detail, using sustainable materials and ethical production methods. Our minimalist aesthetic celebrates simplicity and functionality.</p>
+                    <p>At Iska, we're committed to slow fashion - creating fewer, better pieces that you'll love wearing season after season.</p>
+                    <a href="#" class="btn">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products" id="products">
+        <div class="container">
+            <h2 class="section-title">Shop Our Collection</h2>
+            <div class="products-filter">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="men">Men</button>
+                <button class="filter-btn" data-filter="women">Women</button>
+                <button class="filter-btn" data-filter="accessories">Accessories</button>
+            </div>
+            <div class="products-grid">
+                <!-- Product 1 -->
+                <div class="product-card" data-category="women">
+                    <span class="product-badge">New</span>
+                    <img src="https://i.pinimg.com/736x/fa/e1/3b/fae13b4d4a53630f4d6928fe19cbdad6.jpg" alt="Linen Shirt">
+                    <div class="product-actions">
+                        <div class="product-action"><i class="fas fa-heart"></i></div>
+                        <div class="product-action"><i class="fas fa-shopping-bag"></i></div>
+                        <a href="product-detail.html" class="product-action"><i class="fas fa-eye"></i></a>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Linen Shirt</h3>
+                        <p class="product-price">6000da</p>
+                    </div>
+                </div>
+                <!-- Product 2 -->
+                <div class="product-card" data-category="men">
+                    <img src="https://i.pinimg.com/736x/83/b1/24/83b124bd7b75e1eafad381a207e51bd4.jpg" alt="Wool Coat">
+                    <div class="product-actions">
+                        <div class="product-action"><i class="fas fa-heart"></i></div>
+                        <div class="product-action"><i class="fas fa-shopping-bag"></i></div>
+                        <a href="product-detail.html" class="product-action"><i class="fas fa-eye"></i></a>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Nike bones</h3>
+                        <p class="product-price">7700da</p>
+                    </div>
+                </div>
+                <!-- Product 3 -->
+                <div class="product-card" data-category="women">
+                    <img src="https://i.pinimg.com/736x/88/a5/8d/88a58d728c74c12c0220da5571804f5b.jpg" alt="Cashmere Sweater">
+                    <div class="product-actions">
+                        <div class="product-action"><i class="fas fa-heart"></i></div>
+                        <div class="product-action"><i class="fas fa-shopping-bag"></i></div>
+                        <a href="product-detail.html" class="product-action"><i class="fas fa-eye"></i></a>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">jacket</h3>
+                        <p class="product-price">9000da</p>
+                    </div>
+                </div>
+                <!-- Product 4 -->
+                <div class="product-card" data-category="men">
+                    <span class="product-badge">Sale</span>
+                    <img src="https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1525&q=80" alt="Cotton T-Shirt">
+                    <div class="product-actions">
+                        <div class="product-action"><i class="fas fa-heart"></i></div>
+                        <div class="product-action"><i class="fas fa-shopping-bag"></i></div>
+                        <a href="product-detail.html" class="product-action"><i class="fas fa-eye"></i></a>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Cotton T-Shirt</h3>
+                        <p class="product-price"><span style="text-decoration: line-through; color: var(--light-text);">$45.00</span> $35.00</p>
+                    </div>
+                </div>
+                <!-- Product 5 -->
+                <div class="product-card" data-category="accessories">
+                    <img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1025&q=80" alt="Leather Belt">
+                    <div class="product-actions">
+                        <div class="product-action"><i class="fas fa-heart"></i></div>
+                        <div class="product-action"><i class="fas fa-shopping-bag"></i></div>
+                        <a href="product-detail.html" class="product-action"><i class="fas fa-eye"></i></a>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Leather Belt</h3>
+                        <p class="product-price">$65.00</p>
+                    </div>
+                </div>
+                <!-- Product 6 -->
+                <div class="product-card" data-category="women">
+                    <img src="https://images.unsplash.com/photo-1551232864-3f0890e580d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="Silk Dress">
+                    <div class="product-actions">
+                        <div class="product-action"><i class="fas fa-heart"></i></div>
+                        <div class="product-action"><i class="fas fa-shopping-bag"></i></div>
+                        <a href="product-detail.html" class="product-action"><i class="fas fa-eye"></i></a>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Silk Dress</h3>
+                        <p class="product-price">$199.00</p>
+                    </div>
+                </div>
+                <!-- Product 7 -->
+                <div class="product-card" data-category="men">
+                    <img src="https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1525&q=80" alt="Denim Jeans">
+                    <div class="product-actions">
+                        <div class="product-action"><i class="fas fa-heart"></i></div>
+                        <div class="product-action"><i class="fas fa-shopping-bag"></i></div>
+                        <a href="product-detail.html" class="product-action"><i class="fas fa-eye"></i></a>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Denim Jeans</h3>
+                        <p class="product-price">$95.00</p>
+                    </div>
+                </div>
+                <!-- Product 8 -->
+                <div class="product-card" data-category="accessories">
+                    <img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1025&q=80" alt="Wool Scarf">
+                    <div class="product-actions">
+                        <div class="product-action"><i class="fas fa-heart"></i></div>
+                        <div class="product-action"><i class="fas fa-shopping-bag"></i></div>
+                        <a href="product-detail.html" class="product-action"><i class="fas fa-eye"></i></a>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Wool Scarf</h3>
+                        <p class="product-price">$75.00</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter" id="contact">
+        <div class="container">
+            <h2>Join Our Community</h2>
+            <p>Subscribe to our newsletter and be the first to know about new collections, exclusive offers, and styling tips.</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Your email address" required>
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-col">
+                    <h3>Iska</h3>
+                    <p>Minimalist clothing designed for everyday life. Quality materials, timeless designs, and sustainable practices.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Shop</h3>
+                    <ul>
+                        <li><a href="#">New Arrivals</a></li>
+                        <li><a href="#">Men's Collection</a></li>
+                        <li><a href="#">Women's Collection</a></li>
+                        <li><a href="#">Accessories</a></li>
+                        <li><a href="#">Sale</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Information</h3>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Sustainability</a></li>
+                        <li><a href="#">Shipping & Returns</a></li>
+                        <li><a href="#">Size Guide</a></li>
+                        <li><a href="#">FAQs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Contact</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Fashion Ave, New York</li>
+                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-envelope"></i> hello@iska.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Iska. All rights reserved. | Designed with <i class="fas fa-heart"></i> for minimalists</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const nav = document.getElementById('nav');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            nav.classList.toggle('active');
+            mobileMenuBtn.innerHTML = nav.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+
+        // Close mobile menu when clicking on a link
+        const navLinks = document.querySelectorAll('nav ul li a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                nav.classList.remove('active');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+
+        // Header scroll effect
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Product filter
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const productCards = document.querySelectorAll('.product-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterBtns.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                btn.classList.add('active');
+
+                const filter = btn.getAttribute('data-filter');
+
+                productCards.forEach(card => {
+                    if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                        card.style.display = 'block';
+                    } else
